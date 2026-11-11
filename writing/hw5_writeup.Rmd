@@ -1,0 +1,11 @@
+---
+title: "hw5_writeup"
+author: "George Kinney"
+date: "2026-11-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
