@@ -1,5 +1,5 @@
 ---
-title: "hw5_writeup"
+title: "Homework 5 Writeup"
 author: "George Kinney"
 date: "2026-11-30"
 output: pdf_document
@@ -17,7 +17,6 @@ list.files("../data/")
 ## Libraries
 ``` {r}
 library(tidyverse)
-library(broom)
 library(knitr)
 library(scales)
 ```
