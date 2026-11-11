@@ -22,6 +22,18 @@ library(knitr)
 library(scales)
 ```
 
-``` {r}
-
+# Read and clean Baltimore data
+``` {r read_process_data}
+summer <- month.name[5:10]
+winter <- month.name[c(1:4,11:12)]
+homicides <- read_csv("../data/homicide-data.csv") %>% 
+  mutate(city_name = paste0(city, ", ", state),
+         reported_date = ymd(reported_date))
+# break pipe to preserve full dataset for other analysis
+balt <- homicides %>% 
+  filter(city_name == "Baltimore, MD") %>% 
+  mutate(year = year(reported_date), 
+         month = month(reported_date, label = T, abbr = F),
+         season = case_when(month %in% summer ~ "Summer",
+                            month %in% winter ~ "Winter"))
 ```
