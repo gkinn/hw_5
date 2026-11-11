@@ -2,7 +2,7 @@
 title: "hw5_writeup"
 author: "George Kinney"
 date: "2026-11-30"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = T, message = F, warning = F, error = F, results = T
 list.files("../data/")
 ```
 
-### Libraries
+## Libraries
 ``` {r}
 library(tidyverse)
 library(broom)
@@ -35,12 +35,12 @@ balt <- homicides %>%
 ```
 
 # Create monthly plot
-``` {r monthly_plot, fig.width = 10, fig.height = 2.5}
+``` {r monthly_plot, fig.width = 10, fig.height = 2.5, fig.dpi = 300}
 # define months in each season
 summer <- month.name[5:10]
 winter <- month.name[c(1:4,11:12)]
 # save date of freddie gray arrest as tibble
-fg_arrest <- tibble(date = mdy("April 12, 2015"))
+fg_arrest <- tibble(date = mdy("April 12, 2015"), y = 40, text = "Arrest of \nFreddie Gray")
 # make monthly plot
 balt %>% 
   group_by(year, month) %>% 
@@ -57,7 +57,11 @@ balt %>%
              color = "red", 
              linewidth = 1.2, 
              linetype = 2) +
-  geom_text() +
+  geom_text(data = fg_arrest, 
+            aes(x = date, y = y, label = text),
+            color = "white",
+            hjust = 1.15,
+            position = position_dodge(1.5)) +
   theme_dark() +
   ggtitle("Homicides in Baltimore, MD") +
   xlab("Date") +
