@@ -24,8 +24,6 @@ library(scales)
 
 # Read and clean Baltimore data
 ``` {r read_process_data}
-summer <- month.name[5:10]
-winter <- month.name[c(1:4,11:12)]
 homicides <- read_csv("../data/homicide-data.csv") %>% 
   mutate(city_name = paste0(city, ", ", state),
          reported_date = ymd(reported_date))
@@ -33,7 +31,21 @@ homicides <- read_csv("../data/homicide-data.csv") %>%
 balt <- homicides %>% 
   filter(city_name == "Baltimore, MD") %>% 
   mutate(year = year(reported_date), 
-         month = month(reported_date, label = T, abbr = F),
+         month = month(reported_date, label = T, abbr = F))
+```
+
+# Create monthly plot
+``` {r monthly_plot, fig.width = 10, fig.height = 2}
+# define months in each season
+summer <- month.name[5:10]
+winter <- month.name[c(1:4,11:12)]
+# make monthly plot
+balt %>% 
+  group_by(year, month) %>% 
+  summarise(monthly_hom = n()) %>%
+  mutate(month_year = my(paste0(month, year)), 
          season = case_when(month %in% summer ~ "Summer",
-                            month %in% winter ~ "Winter"))
+                            month %in% winter ~ "Winter")) %>% 
+  ggplot(aes(x = reported_date)) +
+  geom_bar() 
 ```
