@@ -51,7 +51,7 @@ balt %>%
   ggplot(aes(x = month_year, y = monthly_hom)) +
   scale_fill_discrete(palette = c("#c4c4c4", "#acd8e5")) +
   geom_col(aes(fill = season)) +
-  geom_smooth(se = FALSE) +
+  geom_smooth(se = FALSE, span = 0.1) +
   geom_vline(data = fg_arrest, 
              xintercept = fg_arrest$date, 
              color = "red", 
