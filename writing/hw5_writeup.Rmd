@@ -35,7 +35,7 @@ balt <- homicides %>%
 ```
 
 # Create monthly plot
-``` {r monthly_plot, fig.width = 10, fig.height = 2}
+``` {r monthly_plot, fig.width = 10, fig.height = 2.5}
 # define months in each season
 summer <- month.name[5:10]
 winter <- month.name[c(1:4,11:12)]
@@ -46,6 +46,14 @@ balt %>%
   mutate(month_year = my(paste0(month, year)), 
          season = case_when(month %in% summer ~ "Summer",
                             month %in% winter ~ "Winter")) %>% 
-  ggplot(aes(x = reported_date)) +
-  geom_bar() 
+  ggplot(aes(x = month_year, y = monthly_hom)) +
+  scale_fill_discrete(palette = c("#c4c4c4", "#acd8e5")) +
+  geom_col(aes(fill = season)) +
+  geom_smooth() +
+  theme_dark() +
+  ggtitle("Homicides in Baltimore, MD") +
+  xlab("Date") +
+  ylab("Monthly homicides") +
+  theme(legend.position = "bottom")
+
 ```
