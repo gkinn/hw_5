@@ -39,6 +39,8 @@ balt <- homicides %>%
 # define months in each season
 summer <- month.name[5:10]
 winter <- month.name[c(1:4,11:12)]
+# save date of freddie gray arrest
+fg_arrest <- tibble(date = mdy("April 12, 2015"))
 # make monthly plot
 balt %>% 
   group_by(year, month) %>% 
@@ -49,11 +51,16 @@ balt %>%
   ggplot(aes(x = month_year, y = monthly_hom)) +
   scale_fill_discrete(palette = c("#c4c4c4", "#acd8e5")) +
   geom_col(aes(fill = season)) +
-  geom_smooth() +
+  geom_smooth(se = FALSE) +
+  geom_vline(data = fg_arrest, 
+             xintercept = fg_arrest$date, 
+             color = "red", 
+             linewidth = 1.5, 
+             linetype = 2) +
   theme_dark() +
   ggtitle("Homicides in Baltimore, MD") +
   xlab("Date") +
   ylab("Monthly homicides") +
-  theme(legend.position = "bottom")
-
+  theme(legend.position = "bottom", 
+        legend.title = element_blank())
 ```
